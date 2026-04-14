@@ -1,0 +1,50 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Environment variables
+.env
+.env.*
+
+# laywright
+playwright-report/
+test-results/
+blob-report/
+
+# Allure report
+allure-results/
+allure-report/
+
+# Pytest
+.pytest_cache/
+.cache/
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+#  Build / dist
+build/
+dist/
+*.egg-info/
+
+#  Coverage
+.coverage
+htmlcov/
+
+# Temporary files
+*.tmp
+*.swp
