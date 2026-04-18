@@ -1,0 +1,96 @@
+name: Manual Pytest HTML Report
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_mode:
+        description: "Select what to run"
+        required: true
+        type: choice
+        default: all
+        options:
+          - all
+          - folder
+          - file
+      target_path:
+        description: "Path to folder/file when run_mode is folder or file (e.g. tests/demo_automation or tests/demo_automation/test_demo.py)"
+        required: false
+        type: string
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Install Playwright browser and OS deps
+        run: |
+          playwright install --with-deps chromium
+
+      - name: Resolve pytest target
+        id: target
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          MODE="${{ github.event.inputs.run_mode }}"
+          TARGET_INPUT="${{ github.event.inputs.target_path }}"
+
+          if [[ "$MODE" == "all" ]]; then
+            TARGET="tests"
+          else
+            if [[ -z "$TARGET_INPUT" ]]; then
+              echo "target_path is required when run_mode is $MODE"
+              exit 1
+            fi
+            TARGET="$TARGET_INPUT"
+          fi
+
+          if [[ ! -e "$TARGET" ]]; then
+            echo "Target does not exist: $TARGET"
+            exit 1
+          fi
+
+          if [[ "$MODE" == "folder" && ! -d "$TARGET" ]]; then
+            echo "Expected a folder but got: $TARGET"
+            exit 1
+          fi
+
+          if [[ "$MODE" == "file" && ! -f "$TARGET" ]]; then
+            echo "Expected a file but got: $TARGET"
+            exit 1
+          fi
+
+          echo "target=$TARGET" >> "$GITHUB_OUTPUT"
+
+      - name: Run tests and generate HTML report
+        env:
+          PYTHONBREAKPOINT: "0"
+        shell: bash
+        run: |
+          mkdir -p reports
+          pytest "${{ steps.target.outputs.target }}" \
+            --browser chromium \
+            --headless \
+            --html=reports/pytest-report.html \
+            --self-contained-html
+
+      - name: Upload pytest-html report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pytest-html-report
+          path: reports/pytest-report.html
+          if-no-files-found: error

@@ -17,3 +17,5 @@ class BasePage:
     def is_text_visible(self, text):
         return self.page.is_visible(f"text={text}")
     
+    def get_current_url(self):
+        return self.page.url

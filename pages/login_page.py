@@ -7,7 +7,7 @@ class LoginPage(BasePage):
         self.login_button = "//button[@id='login_button']"
     
     def input_email(self, email):
-        self.fill(self.email_input, email)
+         self.fill(self.email_input, email)
     
     def input_password(self, password):
         self.fill(self.password_input, password)
