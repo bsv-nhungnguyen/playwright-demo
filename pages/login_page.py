@@ -2,21 +2,20 @@ from pages.base_page import BasePage
 class LoginPage(BasePage):
     def __init__(self, page):
         super().__init__(page)
-        self.email_input = "//input[@id='mail_address']"
-        self.password_input = "//input[@id='password']"
-        self.login_button = "//button[@id='login_button']"
+        self.email_input = page.get_by_role("textbox", name="sample@example.com")
+        self.password_input = page.get_by_role("textbox", name="半角英数記号8文字以上32文字まで")
+        self.login_button = page.get_by_role("button", name="ログイン", exact=True)
     
     def input_email(self, email):
-         self.fill(self.email_input, email)
+        self.email_input.click()
+        self.email_input.fill(email)
+        print(f"Filled email input with: {email}")
     
     def input_password(self, password):
-        self.fill(self.password_input, password)
-    
-    def click_login(self):
-        self.click(self.login_button)   
+        self.password_input.click()
+        self.password_input.fill(password)
+        print(f"Filled password input with: {password}")
 
-    
-    def login(self, email, password):
-        self.input_email(email)
-        self.input_password(password)
-        self.click(self.login_button)
+    def click_login(self):
+        self.login_button.click()
+        print("Clicked on login button")

@@ -48,3 +48,6 @@ htmlcov/
 # Temporary files
 *.tmp
 *.swp
+
+#.html 
+pytest-report.html
