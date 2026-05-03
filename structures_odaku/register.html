@@ -1,0 +1,73 @@
+<div class="vfm__content vfm--outline-none modify-account-modal-content" tabindex="0">
+    <div class="d-flex header-modal">
+        <div class="title-confirm">新規アカウント追加</div>
+    </div>
+    <form novalidate="" class="modal-content" autocomplete="off">
+        <div class="body-modal">
+            <div class="label-input">
+                <div class="label-title"> アカウント名 <span class="required-mark">*</span><span class="input-note"> （255文字以内）
+                    </span></div>
+                <div class="main-input"><input name="userName" class="" type="text" maxlength="255" autocomplete="off"
+                        is-input-number="false" value=""><!----><!----><!----></div>
+            </div>
+            <div class="label-input">
+                <div class="label-title"> メールアドレス <span class="required-mark">*</span></div>
+                <div class="main-input"><input name="email" class="" maxlength="255" autocomplete="off"
+                        is-input-number="false" value=""><!----><!----><!----></div>
+            </div>
+            <div class="label-input">
+                <div class="label-title"> パスワード <span class="required-mark">*</span><span class="input-note">（半角英数字
+                        8文字以上32文字以内）</span></div>
+                <div class="main-input"><input name="password" class="inputPassword" append-icon="mdi-eye-off"
+                        type="password" placeholder="**********" maxlength="32" error="false"
+                        autocomplete="new-password"><img class="eye-password" src="/images/eye_icon_close.svg" alt=""
+                        style="top: 10px;"><!----><!----></div>
+            </div>
+            <div class="label-input">
+                <div class="label-title"> 権限 <span class="required-mark">*</span></div>
+                <div class="custom-select d-flex align-items-center">
+                    <div class="multiselect">
+                        <div class="multiselect-wrapper" tabindex="0" aria-controls="multiselect-options"
+                            aria-expanded="false" aria-multiselectable="false" role="combobox">
+                            <!-- Search --><!--v-if--><!-- Tags (with search) --><!--v-if--><!-- Single label --><!--v-if--><!-- Multiple label --><!--v-if--><!-- Placeholder --><!--v-if--><!-- Spinner --><!--v-if--><!-- Clear --><!--v-if--><!-- Caret --><span
+                                class="multiselect-caret" aria-hidden="true"></span>
+                        </div><!-- Options -->
+                        <div class="multiselect-dropdown is-hidden" tabindex="-1">
+                            <ul class="multiselect-options" id="multiselect-options" role="listbox">
+                                <li class="multiselect-option" id="multiselect-option-1" aria-selected="false"
+                                    aria-label="マスター管理者" role="option"><span>マスター管理者</span></li>
+                                <li class="multiselect-option" id="multiselect-option-2" aria-selected="false"
+                                    aria-label="テナント管理者" role="option"><span>テナント管理者</span></li>
+                            </ul><!--v-if--><!--v-if--><!--v-if-->
+                        </div><!-- Hacky input element to show HTML5 required warning --><input
+                            class="multiselect-fake-input" tabindex="-1"
+                            required=""><!-- Native input support --><!--v-if--><!-- Screen reader assistive text --><!--v-if--><!-- Create height for empty input -->
+                        <div class="multiselect-spacer"></div>
+                    </div>
+                </div><!---->
+            </div>
+            <div class="label-input">
+                <div class="label-title"> コンテンツ <span class="required-mark">*</span></div>
+                <div class="custom-select d-flex align-items-center">
+                    <div class="multiselect is-disabled">
+                        <div class="multiselect-wrapper" tabindex="-1" aria-controls="multiselect-options"
+                            aria-expanded="false" aria-multiselectable="false" role="combobox">
+                            <!-- Search --><!--v-if--><!-- Tags (with search) --><!--v-if--><!-- Single label --><!--v-if--><!-- Multiple label --><!--v-if--><!-- Placeholder --><!--v-if--><!-- Spinner --><!--v-if--><!-- Clear --><!--v-if--><!-- Caret --><span
+                                class="multiselect-caret" aria-hidden="true"></span>
+                        </div><!-- Options -->
+                        <div class="multiselect-dropdown is-hidden" tabindex="-1">
+                            <ul class="multiselect-options" id="multiselect-options" role="listbox"></ul>
+                            <div class="multiselect-no-options">The list is empty</div><!--v-if--><!--v-if-->
+                        </div>
+                        <!-- Hacky input element to show HTML5 required warning --><!--v-if--><!-- Native input support --><!--v-if--><!-- Screen reader assistive text --><!--v-if--><!-- Create height for empty input -->
+                        <div class="multiselect-spacer"></div>
+                    </div>
+                </div>
+                <div class="d-none">[]</div><!---->
+            </div><!----><!----><!----><!----><!----><!---->
+        </div>
+        <div class="d-flex justify-content-center btn-layout gap-40px align-items-center"><button type="button"
+                class="d-flex justify-content-center align-items-center common-cancel-btn"> キャンセル </button><button
+                type="submit" class="common-submit-btn primary" disabled=""> 保存 </button></div>
+    </form><!---->
+</div>

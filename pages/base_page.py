@@ -1,47 +1,61 @@
-from playwright.sync_api import Locator, expect
-
-
 class BasePage:
+    """Single base page class shared across the entire project."""
+
     def __init__(self, page):
         self.page = page
 
-    def navigate(self, url):
+    def navigate(self, url: str):
+        """Navigate to a given URL."""
         self.page.goto(url)
 
-    def click(self, selector):
-        self.page.click(selector)
+    def get_current_url(self) -> str:
+        """Return the current page URL."""
+        return self.page.url
 
-    def fill(self, selector, text):
-        self.page.fill(selector, text)
-    
-    #########GENERIC LOCATORS ACTIONS#########
-    def click_by_role(self, role, name=None, exact=False):
-        self.page.get_by_role(role, name=name, exact=exact).click()
-        print(f"Clicked on element with role: {role}, name: {name}, exact: {exact}")
-    
-    def fill_by_placeholder(self, placeholder, text):
-        self.page.get_by_placeholder(placeholder).fill(text)
-        print(f"Filled element with placeholder: {placeholder} with text: {text}")
+    def get_input_value(self, locator) -> str:
+        """Return the current value of an input element."""
+        return locator.input_value()
 
+    def get_text_content(self, locator) -> str:
+        """Return visible text content of an element."""
+        return locator.text_content()
 
-    # def get_input_value(self, selector):
-    #     return self.page.input_value(selector)
+    def is_visible(self, locator) -> bool:
+        """Return True if the element is visible on the page."""
+        return locator.is_visible()
 
-    # def is_text_visible(self, text):
-    #     return self.page.is_visible(f"text={text}")
-    
-    # def get_current_url(self):
-    #     return self.page.url
+    def is_disabled(self, locator) -> bool:
+        """Return True if the element is disabled."""
+        return locator.is_disabled()
 
-    #########ASSERTIONS#########
-    def expect_visible(self, selector):
-        expect(selector).to_be_visible()
-        print(f"Element with selector: {selector} is visible.")
-    
-    def expect_not_visible(self, selector):
-        expect(selector).not_to_be_visible()
-        print(f"Element with selector: {selector} is not visible.")
-    
-    def expect_text(self, selector, expected_text):
-        expect(selector).to_have_text(expected_text)
-        print(f"Element with selector: {selector} has text: {expected_text}")
+    def is_checked(self, locator) -> bool:
+        """Return True if a radio/checkbox element is checked."""
+        return locator.is_checked()
+
+    def get_attribute(self, locator, attribute: str):
+        """Return the value of the given attribute of the element."""
+        return locator.get_attribute(attribute)
+
+    def dismiss_error_modal_if_present(self, timeout: int = 3_000) -> bool:
+        """
+        Dismiss the server error modal (エラーが発生しました。もう一度お試しください。)
+        by clicking the '戻る' button if it is visible.
+
+        Args:
+            timeout: Max milliseconds to wait for the modal to appear (default 3s).
+
+        Returns:
+            True  — modal was detected and dismissed.
+            False — modal was not present, nothing was done.
+        """
+        back_button = self.page.get_by_role("button", name="戻る")
+        try:
+            back_button.wait_for(state="visible", timeout=timeout)
+            back_button.click()
+            # Wait for the modal to disappear before continuing
+            back_button.wait_for(state="hidden", timeout=5_000)
+            return True
+        except Exception:
+            # Modal was not present — safe to continue
+            return False
+
